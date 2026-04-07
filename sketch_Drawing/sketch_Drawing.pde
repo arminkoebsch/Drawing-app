@@ -1,4 +1,6 @@
 
+PImage head;
+
 color selectedC = #000000;
 
 float br1 = 0;
@@ -26,6 +28,8 @@ float wpos = 25;
 void setup() {
   size(1000, 800);
   background(255);
+  
+  head = loadImage("HKhead");
 }
 
 
@@ -34,6 +38,7 @@ void draw () {
   r = map(rpos, 25, 175, 0, 255);
   g = map(gpos, 25, 175, 0, 255);
   b = map(bpos, 25, 175, 0, 255);
+  w = map(wpos, 25, 175, 1, 150);
 
   fill(150);
   stroke(0);
@@ -57,15 +62,20 @@ void draw () {
   
   stroke(#000000);
   fill(#000000);
-  line(25, 100, 175, 100);
-  circle(wpos, 100, 30);//Size slider
+  line(25, 170, 175, 170);
+  circle(wpos, 170, 30);//Size slider
 
-
+  tactile(25, 400);
   buttonDraw(25, 400, #FFFFFF);
+  tactile(125, 400);
   buttonDraw(125, 400, #000000);
+  tactile(25, 300);
   buttonDraw(25, 300, #888888);
+  tactile(125, 300);
   holderDraw(125, 300, br1, bg1, bb1);//color holder
+  tactile(25, 200);
   holderDraw(25, 200, br2, bg2, bb2);//color holder
+  tactile(125, 200);
   holderDraw(125, 200, br3, bg3, bb3);//color holder
 
   if (mousePressed && (mouseButton == RIGHT)) {//chooses the color of the color holder
@@ -127,6 +137,10 @@ void mouseDragged() {
   if (mouseX > 25 && mouseX < 175 && mouseY > 685 && mouseY < 715) {//blue slider
     bpos = mouseX;
   }
+  
+  if (mouseX > 25 && mouseX < 175 && mouseY > 155 && mouseY < 185) {//size slider
+    wpos = mouseX;
+  }
 }
 
 
@@ -147,7 +161,6 @@ void buttonClicked (int x, int y, float r, float g, float b) {
 void buttonDraw (int x, int y, color c) {
 
   fill(c);
-  stroke(#000000);
   strokeWeight(5);
   rect(x, y, 50, 50);
 }
@@ -155,7 +168,17 @@ void buttonDraw (int x, int y, color c) {
 void holderDraw (int x, int y, float r, float g, float b) {
 
   fill(r, g, b);
-  stroke(#000000);
   strokeWeight(5);
   rect(x, y, 50, 50);
+}
+
+
+
+void tactile (int x, int y){
+  if (mouseX > x && mouseX < x + 50 && mouseY > y && mouseY < y + 50) {
+    stroke(#FFFFFF);
+  }else{
+    stroke(#000000);
+  }
+  
 }
