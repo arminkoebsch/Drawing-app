@@ -1,5 +1,6 @@
 
-PImage head;
+PImage nerd;
+boolean stamp = false;
 
 color selectedC = #000000;
 
@@ -28,8 +29,8 @@ float wpos = 25;
 void setup() {
   size(1000, 800);
   background(255);
-  
-  head = loadImage("HKhead");
+
+  nerd = loadImage("nerdemoji-removebg.png");
 }
 
 
@@ -59,7 +60,7 @@ void draw () {
   fill(#0000FF);
   line(25, 700, 175, 700);
   circle(bpos, 700, 30);//Blue slider
-  
+
   stroke(#000000);
   fill(#000000);
   line(25, 170, 175, 170);
@@ -84,19 +85,29 @@ void draw () {
       bg1 = g;
       bb1 = b;
     }
-    
+
     if (mouseX > 25 && mouseX < 25 + 50 && mouseY > 200 && mouseY < 200 + 50) {
       br2 = r;
       bg2 = g;
       bb2 = b;
     }
-    
+
     if (mouseX > 125 && mouseX < 125 + 50 && mouseY > 200 && mouseY < 200 + 50) {
       br3 = r;
       bg3 = g;
       bb3 = b;
     }
   }
+
+
+  
+
+  if (stamp == true) {
+    stroke(#00FF00);
+  }
+  fill(#FFFFFF);
+  circle(50, 50, 50);
+  image(nerd, 20.5, 25.5, 60, 50);//stamp
 }
 
 void mouseClicked() {
@@ -106,6 +117,14 @@ void mouseClicked() {
   buttonClicked(125, 300, br1, bg1, bb1);//color holder
   buttonClicked(25, 200, br2, bg2, bb2);//color holder
   buttonClicked(125, 200, br3, bg3, bb3);//color holder
+
+  if (mouseX > 25 && mouseX < 25 + 50 && mouseY > 25 && mouseY < 25 + 50) {
+    if (stamp == false) {
+      stamp = true;
+    } else {
+      stamp = false;
+    }
+  }
 }
 
 
@@ -121,10 +140,15 @@ void mouseDragged() {
   stroke(r, g, b);
   strokeWeight(w);
 
-  if (mouseX > 200) {
-    line(pmouseX, pmouseY, mouseX, mouseY);//line tool
+  if (stamp == false) {
+    if (mouseX > 200) {
+      line(pmouseX, pmouseY, mouseX, mouseY);//line tool
+    }
+  } else {
+    if (mouseX > 200) {
+      image(nerd, mouseX - w, mouseY - w, w * 2, w * 2);//stamp tool
+    }
   }
-
 
   if (mouseX > 25 && mouseX < 175 && mouseY > 485 && mouseY < 515) {//red slider
     rpos = mouseX;
@@ -137,7 +161,7 @@ void mouseDragged() {
   if (mouseX > 25 && mouseX < 175 && mouseY > 685 && mouseY < 715) {//blue slider
     bpos = mouseX;
   }
-  
+
   if (mouseX > 25 && mouseX < 175 && mouseY > 155 && mouseY < 185) {//size slider
     wpos = mouseX;
   }
@@ -154,6 +178,10 @@ void buttonClicked (int x, int y, float r, float g, float b) {
     rpos = map(r, 0, 255, 25, 175);
     gpos = map(g, 0, 255, 25, 175);
     bpos = map(b, 0, 255, 25, 175);
+  }
+
+  if (stamp == true && mouseX > 200) {
+    image(nerd, mouseX - w, mouseY - w, w * 2, w * 2);//stamp tool
   }
 }
 
@@ -174,11 +202,10 @@ void holderDraw (int x, int y, float r, float g, float b) {
 
 
 
-void tactile (int x, int y){
+void tactile (int x, int y) {
   if (mouseX > x && mouseX < x + 50 && mouseY > y && mouseY < y + 50) {
     stroke(#FFFFFF);
-  }else{
+  } else {
     stroke(#000000);
   }
-  
 }
