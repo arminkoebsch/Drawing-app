@@ -100,7 +100,7 @@ void draw () {
   }
 
 
-  
+  tactile(25, 25);
 
   if (stamp == true) {
     stroke(#00FF00);
@@ -108,9 +108,43 @@ void draw () {
   fill(#FFFFFF);
   circle(50, 50, 50);
   image(nerd, 20.5, 25.5, 60, 50);//stamp
+  
+  tactile(125, 25);
+  buttonDraw(125, 25, #FF05DE);//new
+  fill(#000000);
+  textSize(20);
+  text("new", 130, 40);
+  
+  tactile(25, 85);
+  buttonDraw(25, 85, #FF05DE);//save
+  fill(#000000);
+  textSize(20);
+  text("save", 30, 100);
+  
+  tactile(125, 85);
+  buttonDraw(125, 85, #FF05DE);//load
+  fill(#000000);
+  textSize(20);
+  text("load", 130, 100);
 }
 
+
 void mouseClicked() {
+  
+  if (mouseX > 25 && mouseX < 25 + 50 && mouseY > 75 && mouseY < 75 + 50) {//save
+    selectOutput("choose a name for your new image file", "saveImage");
+  }
+  
+  if (mouseX > 125 && mouseX < 125 + 50 && mouseY > 85 && mouseY < 85 + 50) {//save
+    selectOutput("pick an image to load", "openImage");
+  }
+  
+  if (mouseX > 125 && mouseX < 125 + 50 && mouseY > 25 && mouseY < 25 + 50) {//new
+    noStroke();
+    fill(#FFFFFF);
+    rect(200, 0, 1000, 1000);
+  }
+  
   buttonClicked(25, 400, 255, 255, 255);
   buttonClicked(125, 400, 0, 0, 0);
   buttonClicked(25, 300, 125, 125, 125);
@@ -118,7 +152,7 @@ void mouseClicked() {
   buttonClicked(25, 200, br2, bg2, bb2);//color holder
   buttonClicked(125, 200, br3, bg3, bb3);//color holder
 
-  if (mouseX > 25 && mouseX < 25 + 50 && mouseY > 25 && mouseY < 25 + 50) {
+  if (dist(mouseX, mouseY, 50, 50) < 25) {//mouseX > 25 && mouseX < 25 + 50 && mouseY > 25 && mouseY < 25 + 50
     if (stamp == false) {
       stamp = true;
     } else {
@@ -165,11 +199,25 @@ void mouseDragged() {
   if (mouseX > 25 && mouseX < 175 && mouseY > 155 && mouseY < 185) {//size slider
     wpos = mouseX;
   }
+  
+  
+  
+  if (dist(mouseX, mouseY, 50, 50) < 25) {//mouseX > 25 && mouseX < 25 + 50 && mouseY > 25 && mouseY < 25 + 50
+    if (stamp == false) {
+      stamp = true;
+    } else {
+      stamp = false;
+    }
+  }
+  
+  if (mouseX > 125 && mouseX < 125 + 50 && mouseY > 25 && mouseY < 25 + 50) {//new
+    noStroke();
+    fill(#FFFFFF);
+    rect(200, 0, 1000, 1000);
+  }
+  
+  
 }
-
-
-
-
 
 
 void buttonClicked (int x, int y, float r, float g, float b) {
@@ -207,5 +255,23 @@ void tactile (int x, int y) {
     stroke(#FFFFFF);
   } else {
     stroke(#000000);
+  }
+}
+void saveImage(File f) {
+  if (f != null) {
+    PImage canvas = get(200, 0, 800, 800);
+    canvas.save(f.getAbsolutePath());
+  }
+}
+
+
+void openImage(File f) {//load
+  if (f != null) {
+    int n =0;
+    while(n < 10) {
+      PImage pic = loadImage(f.getPath());
+      image(pic, 200, 0);
+      n = n + 1;
+    }
   }
 }
