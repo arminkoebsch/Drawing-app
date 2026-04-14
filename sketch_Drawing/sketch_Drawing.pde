@@ -31,6 +31,11 @@ void setup() {
   background(255);
 
   nerd = loadImage("nerdemoji-removebg.png");
+  
+  surface.setTitle("Drawing app");
+  
+  surface.setIcon(nerd);
+  
 }
 
 
