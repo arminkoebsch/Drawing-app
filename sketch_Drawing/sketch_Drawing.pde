@@ -1,6 +1,9 @@
 
 PImage nerd;
-boolean stamp = false;
+boolean Nstamp = false;
+
+PImage point;
+boolean Pstamp = false;
 
 color selectedC = #000000;
 
@@ -31,6 +34,7 @@ void setup() {
   background(255);
 
   nerd = loadImage("nerdemoji-removebg.png");
+  point = loadImage("point.png");
   
   surface.setTitle("Drawing app");
   
@@ -107,12 +111,22 @@ void draw () {
 
   tactile(25, 25);
 
-  if (stamp == true) {
+  if (Nstamp == true) {
     stroke(#00FF00);
   }
   fill(#FFFFFF);
   circle(50, 50, 50);
   image(nerd, 20.5, 25.5, 60, 50);//stamp
+  
+  tactile(25, 725);
+  
+  if (Pstamp == true) {
+    stroke(#00FF00);
+  }
+  
+  fill(#FFFFFF);
+  circle(50, 750, 50);
+  image(point, 20.5, 725.5, 60, 50);//point
   
   tactile(125, 25);
   buttonDraw(125, 25, #FF05DE);//new
@@ -158,10 +172,18 @@ void mouseClicked() {
   buttonClicked(125, 200, br3, bg3, bb3);//color holder
 
   if (dist(mouseX, mouseY, 50, 50) < 25) {//mouseX > 25 && mouseX < 25 + 50 && mouseY > 25 && mouseY < 25 + 50
-    if (stamp == false) {
-      stamp = true;
+    if (Nstamp == false) {
+      Nstamp = true;
     } else {
-      stamp = false;
+      Nstamp = false;
+    }
+  }
+  
+  if (dist(mouseX, mouseY, 50, 750) < 25) {//mouseX > 25 && mouseX < 25 + 50 && mouseY > 25 && mouseY < 25 + 50
+    if (Pstamp == false) {
+      Pstamp = true;
+    } else {
+      Pstamp = false;
     }
   }
 }
@@ -179,13 +201,17 @@ void mouseDragged() {
   stroke(r, g, b);
   strokeWeight(w);
 
-  if (stamp == false) {
+  if (Nstamp == false && Pstamp == false) {
     if (mouseX > 200) {
       line(pmouseX, pmouseY, mouseX, mouseY);//line tool
     }
   } else {
-    if (mouseX > 200) {
+    if (mouseX > 200 && Nstamp == true) {
       image(nerd, mouseX - w, mouseY - w, w * 2, w * 2);//stamp tool
+    }
+    
+    if (mouseX > 200 && Pstamp == true) {
+      image(point, mouseX - w, mouseY - w, w * 2, w * 2);//stamp tool
     }
   }
 
@@ -208,10 +234,10 @@ void mouseDragged() {
   
   
   if (dist(mouseX, mouseY, 50, 50) < 25) {//mouseX > 25 && mouseX < 25 + 50 && mouseY > 25 && mouseY < 25 + 50
-    if (stamp == false) {
-      stamp = true;
+    if (Nstamp == false) {
+      Nstamp = true;
     } else {
-      stamp = false;
+      Nstamp = false;
     }
   }
   
@@ -233,7 +259,7 @@ void buttonClicked (int x, int y, float r, float g, float b) {
     bpos = map(b, 0, 255, 25, 175);
   }
 
-  if (stamp == true && mouseX > 200) {
+  if (Nstamp == true && mouseX > 200) {
     image(nerd, mouseX - w, mouseY - w, w * 2, w * 2);//stamp tool
   }
 }
